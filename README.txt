@@ -3,6 +3,22 @@
 * http://seattlerb.rubyforge.org/ImageScience.html
 * http://rubyforge.org/projects/seattlerb
 
+== FORK:
+This fork adds the ability to get DPI (or dots-per-meter) from an image.  It also lets you change DPI (or dots-per-meter) when you resize image.
+
+New Public Instance Methods added:
+* resize_with_dpi
+* resize_with_dpm
+* dpm_y
+* dpi_y
+* dpm_x
+* dpi_x
+* dpi
+
+New Public Class Methods added:
+* dpm_to_dpi
+* dpi_to_dpm
+
 == DESCRIPTION:
 
 ImageScience is a clean and happy Ruby library that generates
