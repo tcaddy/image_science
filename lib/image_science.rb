@@ -50,9 +50,35 @@ class ImageScience
   def width; end
 
   ##
+  # Returns to dots-per-meter of x-axis (width) of image
+  def dpm_x; end
+    
+  ##
+  # Returns the DPI of x-axis (width) of the image, in dots-per-inch as float
+  def dpi_x
+    self.dpm_to_dpi(dpm_x)
+  end
+
+  ##
   # Returns the height of the image, in pixels.
 
   def height; end
+
+  ##
+  # Returns to dots-per-meter of y-axis (height) of image
+  def dpm_y; end
+    
+  ##
+  # Returns the DPI of y-axis (height) of the image, in dots-per-inch as float
+  def dpi_y
+    self.dpm_to_dpi(dpm_y)
+  end
+
+  ##
+  # Returns the DPI of image, as hash of float values
+  def dpi
+    {:x=>dpi_x,:y=>dpi_y}
+  end
 
   ##
   # Saves the image out to +path+. Changing the file extension will
@@ -261,6 +287,24 @@ class ImageScience
         GET_BITMAP(bitmap);
 
         return FreeImage_GetWidth(bitmap);
+      }
+    END
+
+    builder.c <<-"END"
+      int dpm_x() {
+        FIBITMAP *bitmap;
+        GET_BITMAP(bitmap);
+
+        return FreeImage_GetDotsPerMeterX(bitmap);
+      }
+    END
+    
+    builder.c <<-"END"
+      int dpm_y() {
+        FIBITMAP *bitmap;
+        GET_BITMAP(bitmap);
+
+        return FreeImage_GetDotsPerMeterY(bitmap);
       }
     END
 
