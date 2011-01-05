@@ -104,7 +104,9 @@ class ImageScience
   # Resizes the image to +width+ and +height+ using a cubic-bspline
   # filter, and converts to Dots-per-Inch and yields the new image.
   def resize_with_dpi(width, height, dpi_x, dpi_y) # :yields: image
-    yield resize_with_dpm(width, height, self.class.dpi_to_dpm(dpi_x), self.class.dpi_to_dpm(dpi_y))
+    resize_with_dpm(width, height, self.class.dpi_to_dpm(dpi_x), self.class.dpi_to_dpm(dpi_y)) do |image|
+      yield image
+    end
   end
 
   ##
