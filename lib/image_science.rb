@@ -56,7 +56,7 @@ class ImageScience
   ##
   # Returns the DPI of x-axis (width) of the image, in dots-per-inch as float
   def dpi_x
-    self.dpm_to_dpi(dpm_x)
+    self.class.dpm_to_dpi(dpm_x)
   end
 
   ##
@@ -71,7 +71,7 @@ class ImageScience
   ##
   # Returns the DPI of y-axis (height) of the image, in dots-per-inch as float
   def dpi_y
-    self.dpm_to_dpi(dpm_y)
+    self.class.dpm_to_dpi(dpm_y)
   end
 
   ##
