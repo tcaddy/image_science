@@ -26,6 +26,18 @@ class ImageScience
   end
 
   ##
+  # Convert a number from dots-per-meter to dots-per-inch
+  def self.dpm_to_dpi(dpm)
+    (dpm.to_f * (1.to_f/100.to_f) * ((2.54).to_f/1.to_f)).to_f
+  end
+
+  ##
+  # Convert a number from dots-per-inch to dots-per-meter  
+  def self.dpi_to_dpm(dpi)
+    (dpi.to_f * (1.to_f/(2.54).to_f) * (100.to_f/1.to_f)).to_f
+  end
+
+  ##
   # Crops an image to +left+, +top+, +right+, and +bottom+ and then
   # yields the new image.
 
