@@ -94,6 +94,20 @@ class ImageScience
   end
 
   ##
+  # Resizes the image to +width+ and +height+ using a cubic-bspline
+  # filter, and converts to Dots-per-Meter and yields the new image.
+
+  def resize_with_dpm(width, height, dpm_x, dpm_y) # :yields: image
+  end
+  
+  ##
+  # Resizes the image to +width+ and +height+ using a cubic-bspline
+  # filter, and converts to Dots-per-Inch and yields the new image.
+  def resize_with_dpi(width, height, dpi_x, dpi_y) # :yields: image
+    yield resize_with_dpm(width, height, self.class.dpi_to_dpm(dpi_x), self.class.dpi_to_dpm(dpi_y))
+  end
+
+  ##
   # Creates a proportional thumbnail of the image scaled so its longest
   # edge is resized to +size+ and yields the new image.
 
@@ -315,6 +329,25 @@ class ImageScience
         if (h <= 0) rb_raise(rb_eArgError, "Height <= 0");
         GET_BITMAP(bitmap);
         image = FreeImage_Rescale(bitmap, w, h, FILTER_CATMULLROM);
+        if (image) {
+          copy_icc_profile(self, bitmap, image);
+          return wrap_and_yield(image, self, 0);
+        }
+        return Qnil;
+      }
+    END
+
+    builder.c <<-"END"
+      VALUE resize_with_dpm(long w, long h, long dpm_x, long dpm_y) {
+        FIBITMAP *bitmap, *image;
+        if (w <= 0) rb_raise(rb_eArgError, "Width <= 0");
+        if (h <= 0) rb_raise(rb_eArgError, "Height <= 0");
+        if (dpm_x <= 0) rb_raise(rb_eArgError, "Dots-per-Meter X-Axis <= 0");
+        if (dpm_y <= 0) rb_raise(rb_eArgError, "Dots-per-Meter Y-Axis <= 0");
+        GET_BITMAP(bitmap);
+        image = FreeImage_Rescale(bitmap, w, h, FILTER_CATMULLROM);
+        FreeImage_SetDotsPerMeterX(image,dpm_x);
+        FreeImage_SetDotsPerMeterY(image,dpm_y);
         if (image) {
           copy_icc_profile(self, bitmap, image);
           return wrap_and_yield(image, self, 0);
