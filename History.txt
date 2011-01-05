@@ -1,3 +1,10 @@
+=== 1.2.1 (forked) / 2011-01-05
+
+* 2 feature enhancements:
+
+  * Added getters for DPI (and dots-per-meter).
+  * Added resize_with_dpm and resize_with_dpi methods.
+
 === 1.2.1 / 2009-08-14
 
 * 2 minor enhancements:
